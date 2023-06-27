@@ -11,6 +11,8 @@
   <depend>pluginlib</depend>
   <depend>point_cloud_transport</depend>
   <depend>rclcpp</depend>
+  <depend>rosbag2_cpp</depend>
+  <depend>rosbag2_storage</depend>
   <depend>sensor_msgs</depend>
 
   <!-- <build_depend>cras_cpp_common</build_depend>
@@ -27,6 +29,9 @@
   <exec_depend>rosgraph_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>topic_tools</exec_depend> -->
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

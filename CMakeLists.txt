@@ -15,38 +15,44 @@ find_package(ament_cmake REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(point_cloud_transport REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rosbag2 REQUIRED)
+find_package(rosbag2_cpp REQUIRED)
+find_package(rosbag2_storage REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 add_executable(my_publisher
-	src/my_publisher.cpp
+  src/my_publisher.cpp
 )
 ament_target_dependencies(my_publisher
-	pluginlib
+  pluginlib
   point_cloud_transport
   rclcpp
-	sensor_msgs
+  rosbag2
+  rosbag2_cpp
+  rosbag2_storage
+  sensor_msgs
 )
 
 add_executable(my_subscriber
-	src/my_subscriber.cpp
+  src/my_subscriber.cpp
 )
 
 ament_target_dependencies(my_subscriber
-	pluginlib
+  pluginlib
   point_cloud_transport
   rclcpp
-	sensor_msgs
+  sensor_msgs
 )
 
 add_executable(my_encoder
-	src/my_encoder.cpp
+  src/my_encoder.cpp
 )
 
 ament_target_dependencies(my_encoder
-	pluginlib
+  pluginlib
   point_cloud_transport
   rclcpp
-	sensor_msgs
+  sensor_msgs
 )
 
 # Install executables
@@ -54,6 +60,12 @@ install(
   TARGETS my_publisher my_subscriber my_encoder
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
 
 ament_package()
 # find_package(catkin REQUIRED COMPONENTS cras_cpp_common point_cloud_transport rosbag rosgraph_msgs sensor_msgs topic_tools)

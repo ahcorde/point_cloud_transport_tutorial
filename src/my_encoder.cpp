@@ -1,6 +1,33 @@
-// SPDX-License-Identifier: BSD-3-Clause
-// SPDX-FileCopyrightText: Czech Technical University in Prague .. 2019, paplhjak
-
+/*
+ * Copyright (c) 2023, Open Source Robotics Foundation, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *    * Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *
+ *    * Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in the
+ *      documentation and/or other materials provided with the distribution.
+ *
+ *    * Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 // #include <cras_cpp_common/log_utils.h>
 // #include <dynamic_reconfigure/Config.h>
 // #include <point_cloud_transport/point_cloud_codec.hpp>
@@ -11,8 +38,10 @@
 // #include <rosgraph_msgs/Log.h>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   // ros::console::initialize();
   // ros::Time::init();
   //
@@ -47,17 +76,23 @@ int main(int argc, char** argv)
   //     //
   //     auto rawLen = ros::serialization::serializationLength(*i);
   //     auto msg = encoder->encode(*i, config);
-  //     if (!msg)  // msg is of type cras::expected; if it evaluates to false, it has .error(), otherwise it has .value()
+  //     if (!msg)  // msg is of type cras::expected; if it evaluates to false,
+  // it has .error(), otherwise it has .value()
   //       ROS_ERROR("%s", msg.error().c_str());
-  //     else if (!msg.value())  // .value() can be nullptr if the encoder did not return anything for this input
+  //     else if (!msg.value())  // .value() can be nullptr if the encoder did not
+  // return anything for this input
   //       ROS_INFO("No message produced");
-  //     else  // ->value() is shorthand for .value().value() (unpacking cras::expected, and then cras::optional)
-  //       ROS_INFO_THROTTLE(1.0, "ENCODE Raw size: %zu, compressed size: %u, ratio: %.2f %%, compressed type: %s",
-  //                         i->data.size(), msg->value().size(), 100.0 * msg->value().size() / rawLen,
+  //     else  // ->value() is shorthand for .value().value()
+  // (unpacking cras::expected, and then cras::optional)
+  //       ROS_INFO_THROTTLE(1.0, "ENCODE Raw size: %zu, compressed size: %u, ratio: %.2f %%,
+  // compressed type: %s",
+  //                         i->data.size(), msg->value().size(),
+  // 100.0 * msg->value().size() / rawLen,
   //                         msg->value().getDataType().c_str());
   //
   //     //
-  //     // Decode using C API; this is much more cumbersome, but it allows writing bindings in other languages.
+  //     // Decode using C API; this is much more cumbersome, but it allows
+  // writing bindings in other languages.
   //     //
   //
   //     // Convert config to shapeshifter
@@ -65,15 +100,18 @@ int main(int argc, char** argv)
   //     topic_tools::ShapeShifter configShifter;
   //     cras::msgToShapeShifter(configMsg, configShifter);
   //
-  //     // Prepare output allocators; this is a very rough idea, they can probably be written much better.
-  //     // Each dynamically sized output of the C API is exported via calling the allocator with a suitable size and
+  //     // Prepare output allocators; this is a very rough idea, they can probably
+  // be written much better.
+  //     // Each dynamically sized output of the C API is exported via calling the
+  // allocator with a suitable size and
   //     // writing the result to the allocated buffer.
   //     sensor_msgs::PointCloud2 raw;
   //     uint32_t numFields;
   //     static std::vector<char*> fieldNames;
   //     fieldNames.clear();
   //     cras::allocator_t fieldNamesAllocator = [](size_t size) {
-  //       fieldNames.push_back(new char[size]); return reinterpret_cast<void*>(fieldNames.back());};
+  //       fieldNames.push_back(new char[size]); return reinterpret_cast<void*>(
+  // fieldNames.back());};
   //     static std::vector<uint32_t> fieldOffsets;
   //     fieldOffsets.clear();
   //     cras::allocator_t fieldOffsetsAllocator = [](size_t) {
@@ -101,15 +139,18 @@ int main(int argc, char** argv)
   //       cras::resizeBuffer(logMessages.back(), size);
   //       using namespace rosgraph_msgs;
   //       using namespace ros::message_traits;
-  //       logMessages.back().morph(MD5Sum<Log>::value(), DataType<Log>::value(), Definition<Log>::value(), "0");
+  //       logMessages.back().morph(MD5Sum<Log>::value(), DataType<Log>::value(),
+  // Definition<Log>::value(), "0");
   //       return reinterpret_cast<void*>(cras::getBuffer(logMessages.back()));
   //     };
   //
   //     // Call the C API
   //     bool success = pointCloudTransportCodecsDecode(
   //         "draco", msg->value().getDataType().c_str(), msg->value().getMD5Sum().c_str(),
-  //         cras::getBufferLength(msg->value()), cras::getBuffer(msg->value()), raw.height, raw.width,
-  //         numFields, fieldNamesAllocator, fieldOffsetsAllocator, fieldDatatypesAllocator, fieldCountsAllocator,
+  //         cras::getBufferLength(msg->value()), cras::getBuffer(msg->value()), raw.height,
+  // raw.width,
+  //         numFields, fieldNamesAllocator, fieldOffsetsAllocator, fieldDatatypesAllocator,
+  // fieldCountsAllocator,
   //         raw.is_bigendian, raw.point_step, raw.row_step, dataAllocator, raw.is_dense,
   //         cras::getBufferLength(configShifter), cras::getBuffer(configShifter),
   //         errorStringAllocator, logMessagesAllocator
@@ -119,7 +160,8 @@ int main(int argc, char** argv)
   //     for (const auto& logShifter : logMessages)
   //     {
   //       const auto& logMsg = logShifter.instantiate<rosgraph_msgs::Log>();
-  //       ROS_LOG(cras::rosgraphMsgLevelToLogLevel(logMsg->level), ROSCONSOLE_DEFAULT_NAME, "%s", logMsg->msg.c_str());
+  //       ROS_LOG(cras::rosgraphMsgLevelToLogLevel(logMsg->level), ROSCONSOLE_DEFAULT_NAME, "%s",
+  // logMsg->msg.c_str());
   //     }
   //
   //     if (success)
@@ -134,8 +176,10 @@ int main(int argc, char** argv)
   //         field.count = fieldCounts[j];
   //         raw.fields.push_back(field);
   //       }
-  //       ROS_INFO_THROTTLE(1.0, "DECODE Raw size: %zu, compressed size: %zu, num_fields %zu, field1 %s",
-  //                         data.size(), cras::getBufferLength(msg->value()), fieldNames.size(), fieldNames[0]);
+  //       ROS_INFO_THROTTLE(1.0, "DECODE Raw size: %zu, compressed size: %zu, num_fields %zu,
+  // field1 %s",
+  //                         data.size(), cras::getBufferLength(msg->value()), fieldNames.size(),
+  // fieldNames[0]);
   //       // ROS_INFO_STREAM_THROTTLE(1.0, raw);
   //       raw.data = data;
   //     }
