@@ -1,14 +1,19 @@
 <package format="3">
   <name>point_cloud_transport_tutorial</name>
-  <version>1.0.0</version>
+  <version>0.0.0</version>
   <description>Tutorial for point_cloud_transport.</description>
   <author>Jakub Paplham</author>
-  <maintainer email="peckama2@fel.cvut.cz">Martin Pecka</maintainer>
+  <maintainer email="alejandro@openrobotics.org">Alejandro Hernández Cordero</maintainer>
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>cras_cpp_common</build_depend>
+  <depend>pluginlib</depend>
+  <depend>point_cloud_transport</depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+
+  <!-- <build_depend>cras_cpp_common</build_depend>
   <build_depend>point_cloud_transport</build_depend>
   <build_depend>rosbag</build_depend>
   <build_depend>rosgraph_msgs</build_depend>
@@ -21,5 +26,9 @@
   <exec_depend>rosbag</exec_depend>
   <exec_depend>rosgraph_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
-  <exec_depend>topic_tools</exec_depend>
+  <exec_depend>topic_tools</exec_depend> -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>

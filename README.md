@@ -20,7 +20,7 @@ _**Contents**_
 # Writing a Simple Publisher
 In this section, we'll see how to create a publisher node, which opens a .bag file and publishes PointCloud2 messages from it.
 
-This tutorial assumes, that you have created your workspace during [<point_cloud_transport>](https://github.com/paplhjak/point_cloud_transport) [installation](https://github.com/paplhjak/point_cloud_transport#installation). 
+This tutorial assumes, that you have created your workspace during [<point_cloud_transport>](https://github.com/paplhjak/point_cloud_transport) [installation](https://github.com/paplhjak/point_cloud_transport#installation).
 
 Before we start, change to the directory and clone this repository:
 ~~~~~ bash
@@ -31,7 +31,7 @@ $ git clone https://github.com/paplhjak/point_cloud_transport_tutorial.git
 ## Code of the Publisher
 Take a look at my_publisher.cpp:
 ```cpp
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/PointCloud2.h>
 #include <point_cloud_transport/point_cloud_transport.h>
 #include <rosbag/bag.h>
@@ -236,7 +236,7 @@ You should see a graph similar to this:
 ![Graph1](https://github.com/paplhjak/point_cloud_transport_tutorial/blob/master/readme_images/rosgraph1.png)
 
 ## Changing the Transport Used
-Currently our nodes are communicating raw sensor_msgs/PointCloud2 messages, so we are not gaining anything over using basic ros::Publisher and ros::Subscriber. We can change that by introducing a new transport. 
+Currently our nodes are communicating raw sensor_msgs/PointCloud2 messages, so we are not gaining anything over using basic ros::Publisher and ros::Subscriber. We can change that by introducing a new transport.
 
 The [<draco_point_cloud_transport>](https://github.com/paplhjak/draco_point_cloud_transport) package provides plugin for   [<point_cloud_transport>](https://github.com/paplhjak/point_cloud_transport), which sends point clouds over the wire encoded through kd-tree or sequantial compression. Notice that draco_point_cloud_transport is not a dependency of your package; point_cloud_transport automatically discovers all transport plugins built in your ROS system.
 
@@ -256,19 +256,19 @@ Details:
 ----------
 "point_cloud_transport/draco"
  - Provided by package: draco_point_cloud_transport
- - Publisher: 
+ - Publisher:
       This plugin publishes a CompressedPointCloud2 using KD tree compression.
-    
- - Subscriber: 
+
+ - Subscriber:
       This plugin decompresses a CompressedPointCloud2 topic.
-    
+
 ----------
 "point_cloud_transport/raw"
  - Provided by package: point_cloud_transport
- - Publisher: 
+ - Publisher:
             This is the default publisher. It publishes the PointCloud2 as-is on the base topic.
-        
- - Subscriber: 
+
+ - Subscriber:
             This is the default pass-through subscriber for topics of type sensor_msgs/PointCloud2.
 ~~~~~
 Shut down your publisher node and restart it. If you list the published topics again and have [<draco_point_cloud_transport>](https://github.com/paplhjak/draco_point_cloud_transport) installed, you should see a new one:
@@ -294,7 +294,7 @@ $ rqt_graph
 
 We can see, that draco_listener is listening to a separate topic carrying compressed messages.
 
-Note that if you just want the draco messages, you can change the parameter globally in-line: 
+Note that if you just want the draco messages, you can change the parameter globally in-line:
 
 ~~~~~ bash
 $ rosrun point_cloud_transport_tutorial subscriber_test _point_cloud_transport:=draco
@@ -311,7 +311,7 @@ $ rosrun rqt_reconfigure rqt_reconfigure
 
 Now pick /pct/point_cloud/draco in the drop-down menu and move the quantization_POSITION slider down to 8. If you visualize the messages, such as in RVIZ, you should be able to see the level of detail of the point cloud drop.
 
-Dynamic Reconfigure has updated the dynamically reconfigurable parameter /pct/point_cloud/draco/quantization_POSITION. You can verify this by running: 
+Dynamic Reconfigure has updated the dynamically reconfigurable parameter /pct/point_cloud/draco/quantization_POSITION. You can verify this by running:
 
 ~~~~~ bash
 rosparam get /pct/point_cloud/draco/quantization_POSITION
