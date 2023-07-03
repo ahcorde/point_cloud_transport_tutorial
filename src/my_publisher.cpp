@@ -122,6 +122,8 @@ int main(int argc, char ** argv)
 
     loop_rate.sleep();
 
+    rclcpp::spin_some(node);
+
     if (!rclcpp::ok()) {
       break;
     }
