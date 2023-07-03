@@ -36,15 +36,15 @@
 
 // ROS
 #include <point_cloud_transport/point_cloud_transport.hpp>
-#include "rclcpp/rclcpp.hpp"
-#include "rosbag2_cpp/readers/sequential_reader.hpp"
-#include "rosbag2_cpp/typesupport_helpers.hpp"
-#include "rosbag2_cpp/converter_interfaces/serialization_format_converter.hpp"
-#include "rosbag2_cpp/types/introspection_message.hpp"
+#include <rclcpp/rclcpp.hpp>
+#include <rosbag2_cpp/readers/sequential_reader.hpp>
+#include <rosbag2_cpp/typesupport_helpers.hpp>
+#include <rosbag2_cpp/converter_interfaces/serialization_format_converter.hpp>
+#include <rosbag2_cpp/types/introspection_message.hpp>
 #include <rosbag2_storage/storage_options.hpp>
 
 // ROS MSG
-#include "sensor_msgs/msg/point_cloud2.hpp"
+#include <sensor_msgs/msg/point_cloud2.hpp>
 
 int main(int argc, char ** argv)
 {
@@ -87,7 +87,7 @@ int main(int argc, char ** argv)
     "pct/point_cloud",
     rmw_qos_profile_sensor_data);
 
-  rclcpp::Rate loop_rate(1);
+  rclcpp::Rate loop_rate(5);
 
   auto library_point_cloud2 = rosbag2_cpp::get_typesupport_library(
     "sensor_msgs/msg/PointCloud2",
@@ -117,7 +117,6 @@ int main(int argc, char ** argv)
       sensor_msgs::msg::PointCloud2 message;
       ros_message->message = &message;
       cdr_deserializer->deserialize(serialized_message, type_support_point_cloud2, ros_message);
-      std::cout << "PointCloud2 type " << nameTypeMap[serialized_message->topic_name] << std::endl;
       pub.publish(message);
     }
 
