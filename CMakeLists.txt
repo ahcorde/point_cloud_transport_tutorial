@@ -15,7 +15,6 @@ find_package(ament_cmake REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(point_cloud_transport REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rosbag2 REQUIRED)
 find_package(rosbag2_cpp REQUIRED)
 find_package(rosbag2_storage REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -27,7 +26,6 @@ ament_target_dependencies(my_publisher
   pluginlib
   point_cloud_transport
   rclcpp
-  rosbag2
   rosbag2_cpp
   rosbag2_storage
   sensor_msgs

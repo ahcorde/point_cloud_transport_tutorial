@@ -15,21 +15,6 @@
   <depend>rosbag2_storage</depend>
   <depend>sensor_msgs</depend>
 
-  <!-- <build_depend>cras_cpp_common</build_depend>
-  <build_depend>point_cloud_transport</build_depend>
-  <build_depend>rosbag</build_depend>
-  <build_depend>rosgraph_msgs</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>topic_tools</build_depend>
-
-  <exec_depend>cras_cpp_common</exec_depend>
-  <exec_depend>draco_point_cloud_transport</exec_depend>
-  <exec_depend>point_cloud_transport</exec_depend>
-  <exec_depend>rosbag</exec_depend>
-  <exec_depend>rosgraph_msgs</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
-  <exec_depend>topic_tools</exec_depend> -->
-
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
